@@ -1,33 +1,20 @@
 <?php
-require_once("config/config.php");
-
-if(isset($_GET['p'])){
-  $p = htmlspecialchars($_GET['p']);
-} else {
-  $p = "index";
-}
+$group_statement = $pdo->prepare("EXPLAIN SELECT * FROM forum_groups");
+$group_statement->execute();
 ?>
-<!doctype html>
-<html>
-<head>
 
-  <title> <?php echo($title); ?></title
-
-  <script type="text/javascript" src="assets/js/jquery.js"></script>
-  <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-
-</head>
-<body>
-
-  <?php include("templates/header.php"); ?>
-  <div class="main-container container">
-  <?php include("templates/" . $p . ".php"); ?>
-  </div>
-  <?php include("templates/footer.php"); ?>
-</body>
-</html>
+  <?php foreach ($row = $group_statement->fetchALL()) {?>
+    <div class="card">
+      <div class="card-header">
+        <?php echo($row['name']); ?>
+      </div>
+      <div class="card-block forums-list">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <img class="forum_img" src="" />
+            Title
+          </li>
+        </ul>
+      </div>
+    </div>
+  <?php } ?>
